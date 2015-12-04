@@ -1,0 +1,48 @@
+dn: dc=k8sdc,dc=io
+objectClass: domain
+objectClass: top
+dc: k8sdc
+aci: (target ="ldap:///dc=k8sdc,dc=io")(targetattr !=
+ "userPassword")(version 3.0;acl "Anonymous read-search access";
+ allow (read, search, compare)(userdn = "ldap:///anyone");)
+aci: (target="ldap:///dc=k8sdc,dc=io") (targetattr =
+ "*")(version 3.0; acl "allow all Admin group"; allow(all) groupdn =
+ "ldap:///cn=Directory Administrators,ou=Groups,dc=k8sdc,dc=io";)
+
+dn: ou=Company Servers,dc=k8sdc,dc=io
+objectClass: organizationalUnit
+objectClass: top
+description: Standard branch for Company Server registration
+ou: Company Servers
+
+dn: ou=Groups,dc=k8sdc,dc=io
+objectClass: organizationalunit
+objectClass: top
+ou: Groups
+
+dn: cn=Directory Administrators,ou=Groups,dc=k8sdc,dc=io
+objectClass: groupofuniquenames
+objectClass: top
+ou: Groups
+cn: Directory Administrators
+uniquemember: uid=admin, ou=People, dc=k8sdc,dc=io
+
+dn: ou=People,dc=k8sdc,dc=io
+objectClass: organizationalunit
+objectClass: top
+ou: People
+aci: (target ="ldap:///ou=People,dc=k8sdc,dc=io")(targetattr =
+ "userpassword || telephonenumber || facsimiletelephonenumber")(version 3.0;
+ acl "Allow self entry modification";allow (write)(userdn = "ldap:///self");)
+
+dn: uid=admin,ou=People,dc=k8sdc,dc=io
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: top
+uid: admin
+userpassword: password
+cn: admin
+sn: admin
+ou: People
+
