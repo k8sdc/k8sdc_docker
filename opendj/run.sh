@@ -8,9 +8,8 @@
 
 cd /opt/opendj
 
-# Instance dir does not exist?
-if [ ! -d instance ] ; then
-  mkdir instance
+# Instance.loc does not exist?
+if [ ! -e instance.loc ] ; then
   mv config/ instance
   mv db/ instance
   mkdir instance/logs
