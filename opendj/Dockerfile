@@ -4,7 +4,7 @@ MAINTAINER des@drury-family.com
 
 WORKDIR /opt
 
-RUN curl https://forgerock.org/djs/opendjrel.js?948497823 | grep -o "http://.*\.zip" | tail -1 | xargs curl -o opendj.zip
+RUN curl http://maven.forgerock.org/repo/snapshots/org/forgerock/opendj/opendj3-server-dev/3.0.0-SNAPSHOT/opendj3-server-dev-3.0.0-20150211.174712-258.zip -o opendj.zip
 
 ADD k8sdc.ldif /opt/opendj/k8sdc.ldif
 
