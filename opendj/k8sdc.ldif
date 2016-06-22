@@ -8,6 +8,9 @@ aci: (target ="ldap:///dc=k8sdc,dc=io")(targetattr !=
 aci: (target="ldap:///dc=k8sdc,dc=io") (targetattr =
  "*")(version 3.0; acl "allow all Admin group"; allow(all) groupdn =
  "ldap:///cn=Directory Administrators,ou=Groups,dc=k8sdc,dc=io";)
+aci: (target="ldap:///dc=k8sdc,dc=io") (targetattr =
+ "*")(version 3.0; acl "allow all Admin group"; allow(all) groupdn =
+ "ldap:///ou=Administrators,dc=k8sdc,dc=io";)
 
 dn: ou=Company Servers,dc=k8sdc,dc=io
 objectClass: organizationalUnit
@@ -25,14 +28,14 @@ objectClass: groupofuniquenames
 objectClass: top
 ou: Groups
 cn: Directory Administrators
-uniquemember: uid=k8admin, ou=Administrators, dc=k8sdc,dc=io
+uniquemember: uid=k8sdcadmin,ou=Administrators,dc=k8sdc,dc=io
 
 dn: ou=Administrators,dc=k8sdc,dc=io
 objectClass: organizationalunit
 objectClass: top
 ou: Administrators
 aci: (target ="ldap:///ou=Administrators,dc=k8sdc,dc=io")(targetattr =
- "userpassword || telephonenumber || facsimiletelephonenumber")(version 3.0;
+ "userPassword || telephonenumber || facsimiletelephonenumber")(version 3.0;
  acl "Allow self entry modification";allow (write)(userdn = "ldap:///self");)
 
 dn: ou=System Accounts,dc=k8sdc,dc=io
@@ -40,7 +43,7 @@ objectClass: organizationalunit
 objectClass: top
 ou: System Accounts
 aci: (target ="ldap:///ou=System Accounts,dc=k8sdc,dc=io")(targetattr =
- "userpassword || telephonenumber || facsimiletelephonenumber")(version 3.0;
+ "userPassword || telephonenumber || facsimiletelephonenumber")(version 3.0;
  acl "Allow self entry modification";allow (write)(userdn = "ldap:///self");)
 
 dn: ou=People,dc=k8sdc,dc=io
@@ -48,17 +51,19 @@ objectClass: organizationalunit
 objectClass: top
 ou: People
 aci: (target ="ldap:///ou=People,dc=k8sdc,dc=io")(targetattr =
- "userpassword || telephonenumber || facsimiletelephonenumber")(version 3.0;
+ "userPassword || telephonenumber || facsimiletelephonenumber")(version 3.0;
  acl "Allow self entry modification";allow (write)(userdn = "ldap:///self");)
 
-dn: uid=k8admin,ou=Administrators,dc=k8sdc,dc=io
+dn: uid=k8sdcadmin,ou=Administrators,dc=k8sdc,dc=io
 objectClass: person
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: top
-uid: k8admin
-userpassword: password
-cn: k8admin
-sn: k8admin
+uid: k8sdcadmin
+userPassword: password
+ds-privilege-name: config-read
+ds-privilege-name: password-reset
+cn: k8sdcadmin
+sn: k8sdcadmin
 ou: Administrators
 
