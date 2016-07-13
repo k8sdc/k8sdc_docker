@@ -9,6 +9,19 @@
 cd /opt/opendj
 
 if [ ! -d /opt/opendj/instance/config/ ] ; then
+  ./setup \
+    --cli -p 389 \
+    --ldapsPort 636 \
+    --enableStartTLS \
+    --generateSelfSignedCertificate \
+    --ldifFile /tmp/k8sdc/k8sdc.ldif \
+    --baseDN "dc=k8sdc,dc=io" \
+    -h localhost \
+    --rootUserPassword password \
+    --acceptLicense \
+    --no-prompt
+  bin/stop-ds
+  mkdir instance
   mv config/ instance/
   mv db/ instance/
   mkdir instance/logs

@@ -1,6 +1,7 @@
 dn: dc=k8sdc,dc=io
-objectClass: domain
-objectClass: top
+objectclass: dcObject
+objectclass: organization
+o: k8sdc
 dc: k8sdc
 aci: (target ="ldap:///dc=k8sdc,dc=io")(targetattr !=
  "userPassword")(version 3.0;acl "Anonymous read-search access";
@@ -8,43 +9,16 @@ aci: (target ="ldap:///dc=k8sdc,dc=io")(targetattr !=
 aci: (target="ldap:///dc=k8sdc,dc=io") (targetattr =
  "*")(version 3.0; acl "allow all Admin group"; allow(all) groupdn =
  "ldap:///cn=Directory Administrators,ou=Groups,dc=k8sdc,dc=io";)
-aci: (target="ldap:///dc=k8sdc,dc=io") (targetattr =
- "*")(version 3.0; acl "allow all Admin group"; allow(all) groupdn =
- "ldap:///ou=Administrators,dc=k8sdc,dc=io";)
-
-dn: ou=Company Servers,dc=k8sdc,dc=io
-objectClass: organizationalUnit
-objectClass: top
-description: Standard branch for Company Server registration
-ou: Company Servers
 
 dn: ou=Groups,dc=k8sdc,dc=io
 objectClass: organizationalunit
 objectClass: top
 ou: Groups
 
-dn: cn=Directory Administrators,ou=Groups,dc=k8sdc,dc=io
-objectClass: groupofuniquenames
-objectClass: top
-ou: Groups
-cn: Directory Administrators
-uniquemember: uid=k8sdcadmin,ou=Administrators,dc=k8sdc,dc=io
-
-dn: ou=Administrators,dc=k8sdc,dc=io
-objectClass: organizationalunit
-objectClass: top
-ou: Administrators
-aci: (target ="ldap:///ou=Administrators,dc=k8sdc,dc=io")(targetattr =
- "userPassword || telephonenumber || facsimiletelephonenumber")(version 3.0;
- acl "Allow self entry modification";allow (write)(userdn = "ldap:///self");)
-
 dn: ou=System Accounts,dc=k8sdc,dc=io
 objectClass: organizationalunit
 objectClass: top
 ou: System Accounts
-aci: (target ="ldap:///ou=System Accounts,dc=k8sdc,dc=io")(targetattr =
- "userPassword || telephonenumber || facsimiletelephonenumber")(version 3.0;
- acl "Allow self entry modification";allow (write)(userdn = "ldap:///self");)
 
 dn: ou=People,dc=k8sdc,dc=io
 objectClass: organizationalunit
@@ -54,16 +28,57 @@ aci: (target ="ldap:///ou=People,dc=k8sdc,dc=io")(targetattr =
  "userPassword || telephonenumber || facsimiletelephonenumber")(version 3.0;
  acl "Allow self entry modification";allow (write)(userdn = "ldap:///self");)
 
-dn: uid=k8sdcadmin,ou=Administrators,dc=k8sdc,dc=io
+dn: ou=Administrators,dc=k8sdc,dc=io
+objectClass: organizationalunit
+objectClass: top
+ou: Administrators
+aci: (target ="ldap:///ou=Administrators,dc=k8sdc,dc=io")(targetattr =
+ "userPassword || telephonenumber || facsimiletelephonenumber")(version 3.0;
+ acl "Allow self entry modification";allow (write)(userdn = "ldap:///self");)
+
+dn: cn=Directory Administrators,ou=Groups,dc=k8sdc,dc=io
+objectClass: groupofuniquenames
+objectClass: top
+ou: Groups
+cn: Directory Administrators
+uniquemember: uid=k8sdc,ou=Administrators,dc=k8sdc,dc=io
+
+dn: cn=Grafana Users,ou=Groups,dc=k8sdc,dc=io
+objectClass: groupofuniquenames
+objectClass: top
+ou: Groups
+cn: Grafana Users
+uniquemember: uid=user1,ou=People,dc=k8sdc,dc=io
+
+dn: cn=Grafana Admins,ou=Groups,dc=k8sdc,dc=io
+objectClass: groupofuniquenames
+objectClass: top
+ou: Groups
+cn: Grafana Admins
+uniquemember: uid=k8sdc,ou=Administrators,dc=k8sdc,dc=io
+
+dn: uid=k8sdc,ou=Administrators,dc=k8sdc,dc=io
+objectClass: top
 objectClass: person
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
-objectClass: top
-uid: k8sdcadmin
+uid: k8sdc
 userPassword: password
 ds-privilege-name: config-read
 ds-privilege-name: password-reset
-cn: k8sdcadmin
-sn: k8sdcadmin
+cn: k8sdc
+sn: k8sdc
 ou: Administrators
+
+dn: uid=user1,ou=People,dc=k8sdc,dc=io
+objectclass: top
+objectclass: person
+objectclass: inetOrgPerson
+objectclass: organizationalPerson
+uid: user1
+userPassword: password
+cn: User
+sn: 1
+ou: People
+mail: user1@k8sdc.io
 
